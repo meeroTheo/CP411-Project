@@ -26,7 +26,7 @@
 GLint winWidth = 800, winHeight = 800;
 GLint isInMove = 0,
 	  xbegin = 0,
-	  csType = 1,    /* coordinate system type: 1 for MCS, 2 for WCS, 3 for VCS */
+	  csType = 1,    /* coordinate system type: 1 for VCS */
 	  transType = 4;  /* depends on csType  */
 
 CullMode cullMode = NONE;      /* culling option */
@@ -137,13 +137,7 @@ void mouseActionFcn(int button, int state, int xMouse, int yMouse) {
 
 void mouseMotionFcn(GLint xMouse, GLint yMouse) {
 	if (isInMove) {
-		if (csType == 1){
-			MCSTransform(xMouse);
-		}
-		else if (csType == 2){
-			WCSTransform(xMouse);
-		}
-		else if(csType == 3){
+		if(csType == 1){
 			VCSTransform(xMouse);
 		}
 		else if(csType == 4) {
