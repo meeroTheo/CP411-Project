@@ -29,7 +29,7 @@ GLint isInMove = 0,
 	  csType = 1,    /* coordinate system type: 1 for MCS, 2 for WCS, 3 for VCS */
 	  transType = 4;  /* depends on csType  */
 
-CullMode cullMode = BACKFACE;      /* culling option */
+CullMode cullMode = NONE;      /* culling option */
 RenderMode renderMode = TEXTURE; //  TEXTURE;  /* shade option  */
 
 World myWorld;
