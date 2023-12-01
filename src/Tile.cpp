@@ -134,32 +134,9 @@ void Tile::draw()
     glScalef(s, s, s);
 
 	for (int i = 0; i < 6; i++) {
-		if  (cullMode == BACKFACE ) {
-			if (isFrontface(i, myCamera)) {
-				drawFace(i);
-			}
-		}
-		else {
-			drawFace(i);
-		}
+		drawFace(i);
 	}
     glPopMatrix();
-}
-
-
-bool Tile::isFrontface(int faceindex, Camera camera) {
-	GLfloat v[4];
-	v[0] = faceNormal[faceindex][0];
-	v[1] = faceNormal[faceindex][1];
-	v[2] = faceNormal[faceindex][2];
-	v[3] = 0.0;
-	mc.multiplyVector(v);
-	if (pmc != NULL) {
-		pmc->multiplyVector(v);
-		return (pmc->mat[0][3] - camera.eye.x) * v[0] + (pmc->mat[1][3] - camera.eye.y) * v[1] + (pmc->mat[2][3] - camera.eye.z) * v[2] < 0;
-	} else {
-		return (mc.mat[0][3] - camera.eye.x) * v[0] + (mc.mat[1][3] - camera.eye.y) * v[1] + (mc.mat[2][3] - camera.eye.z) * v[2] < 0;
-	}
 }
 
 GLfloat Tile::getFaceShade(int faceindex, Light light) {

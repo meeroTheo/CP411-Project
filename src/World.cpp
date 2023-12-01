@@ -13,54 +13,18 @@ World::World() {
 	obj->scaleChange(0.8);
 	objlist.push_back(obj);
 
-    /* add Tile into the world object list */
-	obj = new Tile();
-	obj->setId(2);
-	obj->scaleChange(-0.4);
-	obj->translate(-3, 2, 2);
-	objlist.push_back(obj);
+    /* add Tiles into the world object list */
+    for (int i = 2; i <= 9; ++i) {
+        obj = new Tile();
+        obj->setId(i);
+        obj->scaleChange(-0.4);
 
-	obj = new Tile();
-	obj->setId(3);
-	obj->scaleChange(-0.4);
-	obj->translate(-1, 2, 2);
-	objlist.push_back(obj);
+        int x = (i - 2) % 4;  // Adjust x-coordinate based on the loop variable
+        int y = (i - 2) / 4;  // Adjust y-coordinate based on the loop variable
 
-	obj = new Tile();
-	obj->setId(4);
-	obj->scaleChange(-0.4);
-	obj->translate(1, 2, 2);
-	objlist.push_back(obj);
-
-	obj = new Tile();
-	obj->setId(5);
-	obj->scaleChange(-0.4);
-	obj->translate(3, 2, 2);
-	objlist.push_back(obj);
-
-	obj = new Tile();
-	obj->setId(6);
-	obj->scaleChange(-0.4);
-	obj->translate(-3, -2, 2);
-	objlist.push_back(obj);
-
-	obj = new Tile();
-	obj->setId(7);
-	obj->scaleChange(-0.4);
-	obj->translate(-1, -2, 2);
-	objlist.push_back(obj);
-
-	obj = new Tile();
-	obj->setId(8);
-	obj->scaleChange(-0.4);
-	obj->translate(1, -2, 2);
-	objlist.push_back(obj);
-
-	obj = new Tile();
-	obj->setId(9);
-	obj->scaleChange(-0.4);
-	obj->translate(3, -2, 2);
-	objlist.push_back(obj);
+        obj->translate(-4.5 + x * 3, 2 - y * 4, 2);
+        objlist.push_back(obj);
+    }
 }
 
 World::~World(){
