@@ -8,7 +8,6 @@
 
 #include <GL/glew.h>
 #include "pixmap/RGBpixmap.h"
-#include "solar/Solar.hpp"
 #include "curve/Bezier.hpp"
 #include "surface/RBM.hpp"
 #include "glsl/Angel.h"
@@ -42,7 +41,6 @@ Shape *selectObj = NULL;  // pointer to select object
 GLint displayOption = 0;   /* 0: world, 1: solar system, 2: control points, 3: curve, 4: rotation surface.  */
 
 RGBpixmap pix[6];      /* pixmaps for 6 textures */
-Solar mySolar;
 Bezier myBezier;       /* Bezier curve object */
 RBM myRBM;             /* rotation curve mesh object */
 GLuint ProgramObject;  /* GLSL program object */
@@ -74,10 +72,6 @@ void init(void) {
 	pix[5].readBMPFile("texture/draw.bmp");
 	pix[5].setTexture(5);
 
-    /* set texture for Solar system */
-	mySolar.sun->textureID = 2;
-	mySolar.earth->textureID = 3;
-	mySolar.moon->textureID = 4;
 
 	// set rotation curve for rotation surface
     myRBM.setRotationCurve(&myBezier);
@@ -117,7 +111,6 @@ void display(void) {
 	 break;
 	case 1:
 	   myCamera.setProjectionMatrix();
-	   mySolar.draw();
 	 break;
 	case 2:
 		myBezier.displayCPts();

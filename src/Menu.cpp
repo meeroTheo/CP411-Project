@@ -7,8 +7,7 @@
 #include "World.hpp"
 #include "Camera.hpp"
 #include "Light.hpp"
-#include "solar/Solar.hpp"
-#include "solar/Sphere.hpp"
+
 #include "glsl/Angel.h"
 
 #include "curve/Bezier.hpp"
@@ -22,7 +21,7 @@ extern GLint transType, xbegin;
 extern World myWorld;
 extern Camera myCamera;
 extern Light myLight;
-extern Solar mySolar;
+
 
 extern CullMode cullMode;
 extern RenderMode renderMode;
@@ -95,7 +94,6 @@ void menu() {
 	GLint Animate_Menu = glutCreateMenu(animateMenu);
 	glutAddMenuEntry("Single object", 1);
 	glutAddMenuEntry("Multiple object", 2);
-	glutAddMenuEntry("Simple solar system", 3);  /* SimppleView3 feature */
 	glutAddMenuEntry("Stop animation", 4);
 
 
@@ -294,26 +292,12 @@ void lightMenu(GLint option) {
 		break;
 
 	  case 10:
-		//isShading = 0;
 		glLightModelf( GL_LIGHT_MODEL_TWO_SIDE , 0 );
-//		GLfloat material_Ka[] = { 1.0f, 0.5f, 0.5f, 0.0f };
-//		GLfloat material_Kd[] = { 1.0f, 0.4f, 0.0f, 0.0f };
-//		GLfloat material_Ks[] = { 1.0f, 0.5f, 0.5f, 0.0f };
-//		GLfloat material_Ke[] = { 1.0f, 0.5f, 0.5f, 0.0f };
-//		GLfloat material_Se = 20.0f;
-//		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, material_Ka);
-//		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, material_Kd);
-//		glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, material_Ks);
-//		glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material_Ke);
-//		glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, material_Se);
+
 
 
 		GLfloat material_Kd[] = { 1.0f*myLight.I, 0.4f*myLight.I, 0.0f*myLight.I, 0.0f };
 		glMaterialfv(GL_FRONT, GL_DIFFUSE, material_Kd);
-
-//		GLfloat material_Ke[] = { 0.5*myLight.I, 0.1*myLight.I, 0.1*myLight.I, 0.0f };
-//		//glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material_Ke);
-//		glMaterialfv(GL_FRONT, GL_EMISSION, material_Ke);
 
 		GLfloat pos[] = { myLight.getMC().mat[0][3], myLight.getMC().mat[1][3], myLight.getMC().mat[2][3], 1.0 };
 		GLfloat Ka[] = { 1.0, 1.0, 1.0, 1.0 };
@@ -412,7 +396,6 @@ void shadeMenu(GLint option) {
 		GLfloat ambient[] = { 0.1f, 0.1f, 0.3f, 1.0f };
 		GLfloat diffuse[] = { .6f, .6f, 1.0f, 1.0f };
 		GLfloat specular[] = { 1.0, 1.0, 1.0, 1.0 };
-		GLfloat positionSolar[] = { 0.0, 0.0, 0.0, 1.0 };
 		GLfloat position[] = { 1.8, 1.8, 1.5, 1.0 };
 		GLfloat lmodel_ambient[] = { 0.5, 0.5, 0.5, 1.0 };
 		GLfloat local_view[] = { 0.0 };
@@ -453,76 +436,7 @@ void shadeMenu(GLint option) {
 	glutPostRedisplay();
 }
 
-void solar(void){
-	GLfloat x1,y1,z1, x2,y2,z2, x3, y3, z3;
-	GLfloat sunSpeed = 0.1, earthSpeed = 0.2, earthSunSpeed = 0.1, moonSpeed = 0.2, moonEarthSpeed = 0.2;
 
-	Shape *sun = myWorld.searchById(3);
-	Shape *earth = myWorld.searchById(1);
-	Shape *moon = myWorld.searchById(2);
-
-	x1 = sun->getMC().mat[0][3];
-	y1 = sun->getMC().mat[1][3];
-	z1 = sun->getMC().mat[2][3];
-
-	x2 = earth->getMC().mat[0][3];
-	y2 = earth->getMC().mat[1][3];
-	z2 = earth->getMC().mat[2][3];
-
-	x3 = moon->getMC().mat[0][3];
-	y3 = moon->getMC().mat[1][3];
-	z3 = moon->getMC().mat[2][3];
-
-	// sun motion
-    sun->rotate(x1, y1, z1, 0, 0, 1, sunSpeed);
-
-    // earth motion
-    earth->rotate(x2, y2, z2, 0, 0, 1, earthSpeed);
-    earth->rotate(x1, y1, z1, 0, 0, 1, earthSunSpeed);
-
-    // moon motion
-    moon->rotate(x3, y3, z3,  0, 0, 1, moonSpeed);
-    moon->rotate(x1, y1, z1, 0, 0, 1, earthSunSpeed);
-    moon->rotate(x2, y2, z2,  0, 0, 1, moonEarthSpeed);
-
-	glutPostRedisplay();
-}
-
-void solar2()
-{
-	GLfloat x1,y1,z1, x2,y2,z2, x3, y3, z3;
-	GLfloat sunSpeed = 0.1, earthSpeed = 0.2, earthSunSpeed = 0.1, moonSpeed = 0.2, moonEarthSpeed = 0.2;
-
-	Sphere *sun = mySolar.sun;
-	Sphere *earth =  mySolar.earth;
-	Sphere *moon = mySolar.moon;
-
-	x1 = sun->getMC().mat[0][3];
-	y1 = sun->getMC().mat[1][3];
-	z1 = sun->getMC().mat[2][3];
-
-	x2 = earth->getMC().mat[0][3];
-	y2 = earth->getMC().mat[1][3];
-	z2 = earth->getMC().mat[2][3];
-
-	x3 = moon->getMC().mat[0][3];
-	y3 = moon->getMC().mat[1][3];
-	z3 = moon->getMC().mat[2][3];
-
-	// sun motion
-	sun->rotate(x1, y1, z1, 0, 0, 1, sunSpeed);
-
-	// earth motion
-	earth->rotate(x2, y2, z2, 0, 0, 1, earthSpeed);
-	earth->rotateOrigin(x1, y1, z1, 0, 0, 1, earthSunSpeed);
-
-	// moon motion
-	moon->rotate(x3, y3, z3,  0, 0, 1, moonSpeed);
-	moon->rotateOrigin(x1, y1, z1, 0, 0, 1, earthSunSpeed);
-	moon->rotateOrigin(x2, y2, z2,  0, 0, 1, moonEarthSpeed);
-
-    glutPostRedisplay();
-}
 
 void move(void){
 	selectObj->rotate(selectObj->getMC().mat[0][3], selectObj->getMC().mat[1][3], selectObj->getMC().mat[2][3], 0, 0, 1, 0.1);
@@ -536,16 +450,10 @@ void animateMenu(GLint option) {
 		glutIdleFunc(move);
 		break;
 	  case 2:
-		myLight.on = false;
-		displayOption = 0;
-		glDisable(GL_LIGHTING);
-		glutIdleFunc(solar);
+
 		break;
 	  case 3:
-		myLight.on = false;
-		displayOption = 1;
-		//glDisable(GL_LIGHTING);
-		glutIdleFunc(solar2);
+
 		break;
 	case 4:
 		glutIdleFunc(NULL);
@@ -578,7 +486,6 @@ void reset() {
 	renderMode = TEXTURE;
 	myWorld.reset();
 	myLight.reset();
-	mySolar.reset();
 	myBezier.reset();
 	myRBM.reset();
 	myCamera.reset();
