@@ -1,17 +1,66 @@
 #include "World.hpp"
 #include "Cube.hpp"
+#include "Board.hpp"
 
 using namespace std;
 
 World::World() {
 	Shape *obj = NULL;
 
+	/* add Board into the world object list */
+		obj = new Board();
+		obj->setId(1);
+		obj->scaleChange(0.8);
+		objlist.push_back(obj);
+
     /* add Cube into the world object list */
 	obj = new Cube();
-	obj->setId(1);
-	obj->scaleChange(-0.2);
+	obj->setId(2);
+	obj->scaleChange(-0.4);
+	obj->translate(-3, 2, 2);
 	objlist.push_back(obj);
 
+	obj = new Cube();
+	obj->setId(3);
+	obj->scaleChange(-0.4);
+	obj->translate(-1, 2, 2);
+	objlist.push_back(obj);
+
+	obj = new Cube();
+	obj->setId(4);
+	obj->scaleChange(-0.4);
+	obj->translate(1, 2, 2);
+	objlist.push_back(obj);
+
+	obj = new Cube();
+	obj->setId(5);
+	obj->scaleChange(-0.4);
+	obj->translate(3, 2, 2);
+	objlist.push_back(obj);
+
+	obj = new Cube();
+		obj->setId(6);
+		obj->scaleChange(-0.4);
+		obj->translate(-3, -2, 2);
+		objlist.push_back(obj);
+
+		obj = new Cube();
+		obj->setId(7);
+		obj->scaleChange(-0.4);
+		obj->translate(-1, -2, 2);
+		objlist.push_back(obj);
+
+		obj = new Cube();
+		obj->setId(8);
+		obj->scaleChange(-0.4);
+		obj->translate(1, -2, 2);
+		objlist.push_back(obj);
+
+		obj = new Cube();
+		obj->setId(9);
+		obj->scaleChange(-0.4);
+		obj->translate(3, -2, 2);
+		objlist.push_back(obj);
 }
 
 World::~World(){
