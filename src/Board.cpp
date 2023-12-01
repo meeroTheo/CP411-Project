@@ -5,6 +5,7 @@
  *      Author: Meer
  */
 // Board.cpp
+#include <iostream> // for debugging purposes
 #include "Board.hpp"
 
 Board::Board(int rows, int cols, float tileSize) {
@@ -41,22 +42,28 @@ void Board::draw(float startX, float startY, float startZ) {
 }
 
 void Board::handleMouseClick(float mouseX, float mouseY) {
-    // Check which tile the mouse click corresponds to
-    float startX = /* calculate starting X position */;
-    float startY = /* calculate starting Y position */;
-
+    // Loop through the board and check if the mouse click is inside any tile
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            if (tiles[i][j].isPointInside(mouseX - startX, mouseY - startY)) {
-                // Perform tile action (e.g., flip the tile)
-                tiles[i][j].flip();
-                // Additional logic can be added based on the game's requirements
-                return; // Exit loop after finding the clicked tile
+            // Calculate the boundaries of the current tile
+            float tileLeft = j * tileSize;
+            float tileRight = (j + 1) * tileSize;
+            float tileTop = i * tileSize;
+            float tileBottom = (i + 1) * tileSize;
+
+            // Check if the mouse click is inside the current tile
+            if (mouseX >= tileLeft && mouseX <= tileRight && mouseY >= tileTop && mouseY <= tileBottom) {
+                // Mouse click is inside this tile
+                // Perform the appropriate action (e.g., flip the tile)
+                tiles[i][j].flip(); // Assuming there's a function to flip the tile
+
+                // For debugging purposes, print the row and column of the clicked tile
+                std::cout << "Clicked on tile at row " << i << ", column " << j << std::endl;
+
+                // You may want to break out of the loop if you only want to handle one click
+                // break;
             }
-            startX += tileSize;
         }
-        startX = /* calculate starting X position */;
-        startY += tileSize;
     }
 }
 
