@@ -10,8 +10,6 @@
 
 #include "glsl/Angel.h"
 
-#include "curve/Bezier.hpp"
-#include "surface/RBM.hpp"
 #include "pixmap/RGBpixmap.h"
 
 
@@ -28,13 +26,9 @@ extern RenderMode renderMode;
 extern GLuint ProgramObject;
 
 extern GLint displayOption;
-extern Bezier myBezier;       /* Bezier curve object */
-extern RBM myRBM;             /* rotation surface curve mesh object */
-
 void menu() {
 	GLint Object_Menu = glutCreateMenu(ObjSubMenu);
 	glutAddMenuEntry("Cube", 1);
-	glutAddMenuEntry("RBM", 4);
 
 	GLint MCTrans_Menu = glutCreateMenu(MCSTransMenu);
 	glutAddMenuEntry("Rotate x", 1);
@@ -96,15 +90,6 @@ void menu() {
 	glutAddMenuEntry("Multiple object", 2);
 	glutAddMenuEntry("Stop animation", 4);
 
-
-	/* SimppleView3 features */
-	GLint Curve_Surface_Menu = glutCreateMenu(curveSurfaceMenu);
-	glutAddMenuEntry("Get control points", 1);
-	glutAddMenuEntry("Bezier curve", 2);
-	glutAddMenuEntry("Bezier curve rotation surface", 3);
-//	glutAddMenuEntry("Cubic spline", 4);
-//	glutAddMenuEntry("Cubic spline rotation surface", 5);
-
 	glutCreateMenu(mainMenu);
 	glutAddMenuEntry("Reset", 1);
 	glutAddSubMenu("Select Object", Object_Menu);
@@ -115,8 +100,6 @@ void menu() {
 	glutAddSubMenu("Light", Light_Menu);
 	glutAddSubMenu("Shading", Shading_Menu);
 	glutAddSubMenu("Animation", Animate_Menu);
-	glutAddSubMenu("Curve & Surface", Curve_Surface_Menu); /* SimppleView3 feature */
-
 	glutAddMenuEntry("Quit", 2);
 }
 
@@ -134,13 +117,10 @@ void mainMenu(GLint option) {
 
 void ObjSubMenu(GLint option)
 {
-	if (option == 4) {
-		displayOption = 4;
-		selectObj = &myRBM;
-	} else {
-	   selectObj = myWorld.searchById(option);
-	   displayOption = 0;
-	}
+
+	selectObj = myWorld.searchById(option);
+	displayOption = 0;
+
 	Matrix mp = selectObj->getMC();
 	myCamera.setRef(mp.mat[0][3], mp.mat[1][3], mp.mat[1][3]);
 	glutPostRedisplay();
@@ -462,32 +442,11 @@ void animateMenu(GLint option) {
 	glutPostRedisplay();
 }
 
-void curveSurfaceMenu(GLint option) {
-	switch (option){
-	  case 1:
-	    displayOption = 2;
-	    myBezier.displayCPts();
-		break;
-	  case 2:
-		myBezier.computeBezCurvePts();
-		displayOption = 3;
-		break;
-	  case 3:
-		myRBM.RotateCurve();
-		displayOption = 4;
-		selectObj = &myRBM;
-		break;
-	}
-	glutPostRedisplay();
-}
-
 void reset() {
 	displayOption = 0;
 	renderMode = TEXTURE;
 	myWorld.reset();
 	myLight.reset();
-	myBezier.reset();
-	myRBM.reset();
 	myCamera.reset();
 
 	glUseProgram(0);  // disable GLSL shader

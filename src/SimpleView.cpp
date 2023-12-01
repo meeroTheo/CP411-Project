@@ -8,8 +8,6 @@
 
 #include <GL/glew.h>
 #include "pixmap/RGBpixmap.h"
-#include "curve/Bezier.hpp"
-#include "surface/RBM.hpp"
 #include "glsl/Angel.h"
 
 
@@ -41,8 +39,6 @@ Shape *selectObj = NULL;  // pointer to select object
 GLint displayOption = 0;   /* 0: world, 1: solar system, 2: control points, 3: curve, 4: rotation surface.  */
 
 RGBpixmap pix[6];      /* pixmaps for 6 textures */
-Bezier myBezier;       /* Bezier curve object */
-RBM myRBM;             /* rotation curve mesh object */
 GLuint ProgramObject;  /* GLSL program object */
 
 void init(void) {
@@ -71,11 +67,6 @@ void init(void) {
 //
 	pix[5].readBMPFile("texture/draw.bmp");
 	pix[5].setTexture(5);
-
-
-	// set rotation curve for rotation surface
-    myRBM.setRotationCurve(&myBezier);
-
 
 
 
@@ -113,18 +104,12 @@ void display(void) {
 	   myCamera.setProjectionMatrix();
 	 break;
 	case 2:
-		myBezier.displayCPts();
+
 	 break;
 	case 3:
-		myBezier.display();
+
 	 break;
 	case 4:
-		//myRBM.RotateCurve();
-		myCamera.setProjectionMatrix();
-		drawWCSAxes();
-		glColor3f(0.0, 1.0, 1.0);
-		myRBM.draw();
-		myLight.draw();
 	 break;
 	}
 	glFlush();
@@ -147,17 +132,6 @@ void mouseActionFcn(int button, int state, int xMouse, int yMouse) {
 	}
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
 		isInMove = 0;
-	}
-	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN &&  displayOption == 2) {
-		myBezier.ctrlPts[myBezier.nCtrlPts].x = xMouse - winWidth / 2;
-		myBezier.ctrlPts[myBezier.nCtrlPts].y = winHeight / 2 - yMouse;
-		myBezier.ctrlPts[myBezier.nCtrlPts].z = 0;
-
-		if ( myBezier.nCtrlPts < 10) {
-			 myBezier.nCtrlPts++;
-		} else {
-			printf("Reach to the max control points \n");
-		}
 	}
 }
 
