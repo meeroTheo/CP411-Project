@@ -26,7 +26,8 @@ extern GLuint ProgramObject;
 extern GLint displayOption;
 void menu() {
 	GLint Object_Menu = glutCreateMenu(ObjSubMenu);
-	glutAddMenuEntry("Cube", 1);
+	glutAddMenuEntry("Tile", 1);
+
 
 	GLint VCTrans_Menu = glutCreateMenu(VCSTransMenu);
 	glutAddMenuEntry("Rotate x", 1);
@@ -100,11 +101,13 @@ void ObjSubMenu(GLint option)
 	glutPostRedisplay();
 }
 
+
 void VCSTransMenu(GLint transOption) {
 	csType = 3;
 	transType = transOption;
 	glutPostRedisplay();
 }
+
 
 void VCSTransform(GLint x){
 	GLfloat theta = (xbegin - x > 0) ? 1 : -1;
