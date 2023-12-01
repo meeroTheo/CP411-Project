@@ -1,7 +1,6 @@
 #include "World.hpp"
 #include "Cube.hpp"
 #include "Pyramid.hpp"
-#include "House.hpp"
 
 using namespace std;
 
@@ -18,12 +17,6 @@ World::World() {
 	obj->setId(2);
 	obj->scaleChange(-0.2);
 	obj->translate(-2.5, 0, 0);
-	objlist.push_back(obj);
-
-	obj = new House();
-	obj->setId(3);
-	obj->scaleChange(-0.2);
-	obj->translate(2.5, 0, 0);
 	objlist.push_back(obj);
 }
 
