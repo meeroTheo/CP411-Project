@@ -1,6 +1,5 @@
 #include "World.hpp"
 #include "Cube.hpp"
-#include "Pyramid.hpp"
 
 using namespace std;
 
@@ -13,11 +12,6 @@ World::World() {
 	obj->scaleChange(-0.2);
 	objlist.push_back(obj);
 
-	obj = new Pyramid();
-	obj->setId(2);
-	obj->scaleChange(-0.2);
-	obj->translate(-2.5, 0, 0);
-	objlist.push_back(obj);
 }
 
 World::~World(){
