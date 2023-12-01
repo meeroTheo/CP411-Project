@@ -7,33 +7,32 @@
 
 #include <GL/glew.h>
 #include <GL/glut.h>
-#include "Tile.hpp" // Include your Tile class header
-#include "Board.hpp" // Include your Board class header
-#include "GameLogic.hpp" // Include your GameLogic class header
-#include "UI.hpp" // Include your UI class header
+#include "Tile.hpp"
+#include "Board.hpp"
+#include "GameLogic.hpp"
+#include "UI.hpp"
 
 // Initialize game components
-Tile tile; // Sample Tile instance
-Board board; // Sample Board instance
-GameLogic gameLogic; // Sample GameLogic instance
-UI ui; // Sample UI instance
+Tile tile;
+Board board;
+GameLogic gameLogic;
+UI ui;
 
 int winWidth = 800, winHeight = 800;
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Implement rendering of game elements using UI class
-    ui.renderGameElements(); // Method to render game components
+    // Render game elements using UI class
+    ui.renderGameElements();
 
     glutSwapBuffers();
 }
 
 void mouseClick(int button, int state, int x, int y) {
-    // Implement logic to handle mouse clicks on tiles
     if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
-        int tileClicked = ui.getClickedTile(x, y); // Get the tile clicked
-        gameLogic.handleTileClick(tileClicked); // Handle the click in the game logic
+        int tileClicked = ui.getClickedTile(x, y);
+        gameLogic.handleTileSelection(tileClicked);
     }
     glutPostRedisplay();
 }
@@ -50,13 +49,10 @@ void init() {
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glEnable(GL_DEPTH_TEST);
 
-    // Initialize your game components here
-    // e.g., setup textures, initialize the game board, etc.
-    // tile.init(); // Sample initialization method
-
-    // Initialize the game board and logic
-    board.initialize(); // Sample initialization method for the board
-    gameLogic.initialize(&board); // Sample initialization method for game logic
+    // Initialize game components
+    tile.loadTextures("frontTextureFile", "backTextureFile");
+    board.initializeBoard("frontTextureFile", "backTextureFile");
+    gameLogic.startGame();
 }
 
 int main(int argc, char** argv) {
@@ -65,9 +61,9 @@ int main(int argc, char** argv) {
     glutInitWindowSize(winWidth, winHeight);
     glutCreateWindow("Memory Game");
 
-    glewInit(); // Initialize GLEW
+    glewInit();
 
-    init(); // Initialize game components
+    init();
 
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);

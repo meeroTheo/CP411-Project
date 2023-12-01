@@ -6,21 +6,20 @@
  */
 
 // UI.hpp
-#ifndef UI_HPP
-#define UI_HPP
+#ifndef UI_HPP_
+#define UI_HPP_
 
 #include <GL/glut.h>
-#include "GameLogic.hpp"
 
 class UI {
-private:
-    GameLogic gameLogic;
-    // Add variables for UI elements if needed
-
 public:
-    UI(); // Constructor
-    void initialize(int argc, char** argv); // Initialize the UI
-    // Add UI-related functions (e.g., drawing, handling input) here
+    UI();
+    void initialize(int argc, char** argv);
+
+    // Static functions for callbacks
+    static void display();
+    static void mouseAction(int button, int state, int x, int y);
+    static void mouseMotion(int x, int y);
 };
 
-#endif
+#endif /* UI_HPP_ */
