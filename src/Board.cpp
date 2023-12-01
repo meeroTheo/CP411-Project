@@ -113,7 +113,7 @@ void Board::drawFace(int i)
     case TEXTURE:
 		glColor3f(1, 1, 1);
 		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D,i);
+		glBindTexture(GL_TEXTURE_2D,4);
 		glBegin(GL_QUADS);
 		glTexCoord2f(0.0, 0.0); glVertex3fv(&vertex[face[i][0]][0]);
 		glTexCoord2f(1.0, 0.0); glVertex3fv(&vertex[face[i][1]][0]);

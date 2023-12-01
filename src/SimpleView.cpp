@@ -5,7 +5,8 @@
  */
 
 
-
+#include <windows.h>  // for playing sound
+#include <mmsystem.h> //
 #include <GL/glew.h>
 #include "pixmap/RGBpixmap.h"
 #include "glsl/Angel.h"
@@ -38,7 +39,7 @@ Light myLight;
 Shape *selectObj = NULL;  // pointer to select object
 GLint displayOption = 0;   /* 0: world, 1: solar system, 2: control points, 3: curve, 4: rotation surface.  */
 
-RGBpixmap pix[6];      /* pixmaps for 6 textures */
+RGBpixmap pix[8];      /* pixmaps for 6 textures */
 GLuint ProgramObject;  /* GLSL program object */
 
 void init(void) {
@@ -62,11 +63,10 @@ void init(void) {
 	pix[3].readBMPFile("texture/earth.bmp");
 	pix[3].setTexture(3);
 //
-	pix[4].readBMPFile("texture/moon.bmp");
+	pix[4].readBMPFile("texture/table.bmp");
 	pix[4].setTexture(4);
 //
-	pix[5].readBMPFile("texture/draw.bmp");
-	pix[5].setTexture(5);
+
 
 
 
@@ -156,7 +156,7 @@ int main(int argc, char** argv) {
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(winWidth, winHeight);
 	glutCreateWindow("SimpleView3 Meer Theodore Baloch ");
-
+	PlaySound((LPCSTR) "BGM.wav", NULL, SND_FILENAME | SND_ASYNC);
 
 	glewInit(); 
 
