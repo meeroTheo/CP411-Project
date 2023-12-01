@@ -35,7 +35,6 @@ extern RBM myRBM;             /* rotation surface curve mesh object */
 void menu() {
 	GLint Object_Menu = glutCreateMenu(ObjSubMenu);
 	glutAddMenuEntry("Cube", 1);
-	glutAddMenuEntry("Pyramid", 2);
 	glutAddMenuEntry("RBM", 4);
 
 	GLint MCTrans_Menu = glutCreateMenu(MCSTransMenu);
