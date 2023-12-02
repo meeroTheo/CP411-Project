@@ -28,6 +28,17 @@ void menu() {
 	GLint Object_Menu = glutCreateMenu(ObjSubMenu);
 	glutAddMenuEntry("Tile", 1);
 
+	// Create a menu that allows users to select a card to flip
+	GLint CardSelect_Menu = glutCreateMenu(CardSelectMenu);
+	glutAddMenuEntry("Card 1", 2);
+	glutAddMenuEntry("Card 2", 3);
+	glutAddMenuEntry("Card 3", 4);
+	glutAddMenuEntry("Card 4", 5);
+	glutAddMenuEntry("Card 5", 6);
+	glutAddMenuEntry("Card 6", 7);
+	glutAddMenuEntry("Card 7", 8);
+	glutAddMenuEntry("Card 8", 9);
+
 
 	GLint VCTrans_Menu = glutCreateMenu(VCSTransMenu);
 	glutAddMenuEntry("Rotate x", 1);
@@ -71,6 +82,7 @@ void menu() {
 	glutCreateMenu(mainMenu);
 	glutAddMenuEntry("Reset", 1);
 	glutAddSubMenu("Select Object", Object_Menu);
+	glutAddSubMenu("Select Card", CardSelect_Menu);
 	glutAddSubMenu("VCS Transformations", VCTrans_Menu);
 	glutAddSubMenu("Light", Light_Menu);
 	glutAddSubMenu("Shading", Shading_Menu);
@@ -92,7 +104,16 @@ void mainMenu(GLint option) {
 
 void ObjSubMenu(GLint option)
 {
+	switch (option){
+		case 1:
+			selectObj = myWorld.searchById(1);
+			break;
+	}
+	glutPostRedisplay();
+}
 
+void CardSelectMenu(GLint option)
+{
 	selectObj = myWorld.searchById(option);
 	displayOption = 0;
 

@@ -32,4 +32,6 @@ void animateMenu(GLint option);
 void curveSurfaceMenu(GLint option);
 void move();
 
+void CardSelectMenu(GLint option);
+
 #endif
