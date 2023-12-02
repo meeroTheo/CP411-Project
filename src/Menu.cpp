@@ -12,8 +12,10 @@
 
 #include "pixmap/RGBpixmap.h"
 
-float totalRotation = 0.0;
-const float rotationStep = 0.1;
+double totalRotation = 0.0;
+double rotationStep = 1.0;
+double rotationSpeed = 10.0;
+double tolerance = 0.1;
 extern GLint csType;
 extern Shape* selectObj;
 extern GLint transType, xbegin;
@@ -324,23 +326,41 @@ void shadeMenu(GLint option) {
 
 
 
-void move(void){
-	   float x = selectObj->getMC().mat[0][3];
-	    float y = selectObj->getMC().mat[1][3];
-	    float z = selectObj->getMC().mat[2][3];
+void timer(int value){
 
-	    // Assuming selectObj->rotate(float x, float y, float z, float axisX, float axisY, float axisZ, float angle)
-	    selectObj->rotate(x, y, z, 0.0, 1.0, 0.0, rotationStep);
+	double dt = 16.0 / 1000.0;
 
-	    totalRotation += rotationStep;
+	double rotationAngle = rotationStep * rotationSpeed * dt;
 
-	    // Stop the rotation after 180 degrees
-	    if (totalRotation >= 180.0) {
-	        totalRotation = 0.0;
-	        glutIdleFunc(NULL);  // Stop the idle function
-	    }
+	double x = selectObj->getMC().mat[0][3];
+	double y = selectObj->getMC().mat[1][3];
+	double z = selectObj->getMC().mat[2][3];
 
-	    glutPostRedisplay();
+	if (totalRotation < (180.0 - tolerance)) {
+		selectObj->rotate(x, y, z, 0.0, 1.0, 0.0, rotationAngle);
+
+		totalRotation += rotationAngle;
+	}
+
+	std::cout << "Total Rotation: " << totalRotation << std::endl;
+
+	// Stop the rotation after 180 degrees
+	if (totalRotation >= (180.0 - tolerance)) {
+		totalRotation = 180.0;
+		glutIdleFunc(NULL);  // Stop the idle function
+	} else {
+		glutTimerFunc(16, timer, 0);
+	}
+
+	glutPostRedisplay();
+}
+
+void startRotation() {
+	glutTimerFunc(0, timer, 0);
+}
+
+void move(void) {
+	startRotation();
 }
 
 void animateMenu(GLint option) {
