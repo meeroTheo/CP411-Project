@@ -69,12 +69,14 @@ void Tile::drawFace(int i)
 
 	glColor3f(1, 1, 1);
 	glEnable(GL_TEXTURE_2D);
-	if (i==1){
-        glBindTexture(GL_TEXTURE_2D,getTexId());
+	if (i==0){
+		glBindTexture(GL_TEXTURE_2D,getTexId());
+
 		
 	}
 	else{
 		glBindTexture(GL_TEXTURE_2D,6);
+
 	}
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0); glVertex3fv(&vertex[face[i][0]][0]);

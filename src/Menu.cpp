@@ -20,7 +20,6 @@ extern GLint transType, xbegin;
 extern World myWorld;
 extern Camera myCamera;
 extern Light myLight;
-extern CullMode cullMode;
 extern RenderMode renderMode;
 extern GLuint ProgramObject;
 
@@ -40,12 +39,7 @@ void menu() {
 	glutAddMenuEntry("Card 7", 8);
 	glutAddMenuEntry("Card 8", 9);
 
-	GLint Cull_Menu = glutCreateMenu(cullMenu);
-	glutAddMenuEntry("No culling", 1);
-	glutAddMenuEntry("My back-face", 2);
-	glutAddMenuEntry("OpenGL cull", 3);
-	glutAddMenuEntry("OpenGL depth buffer", 4);
-	glutAddMenuEntry("OpenGL cull & depth buffer", 5);
+
 
 	GLint VCTrans_Menu = glutCreateMenu(VCSTransMenu);
 	glutAddMenuEntry("Rotate x", 1);
@@ -93,7 +87,7 @@ void menu() {
 	glutAddSubMenu("Light", Light_Menu);
 	glutAddSubMenu("Shading", Shading_Menu);
 	glutAddSubMenu("Animation", Animate_Menu);
-	glutAddSubMenu("Culling", Cull_Menu);
+
 	glutAddMenuEntry("Quit", 2);
 }
 
@@ -382,36 +376,3 @@ void reset() {
 	glDisable(GL_LIGHT0);
 }
 
-
-void cullMenu(GLint option) {
-	switch (option){
-	  case 1:
-		cullMode = NONE;
-		glDisable(GL_CULL_FACE);
-		glDisable(GL_DEPTH_TEST);
-		break;
-	  case 2:
-		cullMode = BACKFACE;
-		glDisable(GL_CULL_FACE);
-		glDisable(GL_DEPTH_TEST);
-		break;
-	  case 3:
-		cullMode = GLCULL;
-		glCullFace(GL_BACK);
-		glEnable(GL_CULL_FACE);
-		glDisable(GL_DEPTH_TEST);
-		break;
-	  case 4:
-		cullMode = GLCULLDEPTHBUFFER;
-		glDisable(GL_CULL_FACE);
-		glEnable(GL_DEPTH_TEST);
-		break;
-	  case 5:
-		cullMode = GLCULLDEPTHBUFFER;
-		glCullFace(GL_BACK);
-		glEnable(GL_CULL_FACE);
-		glEnable(GL_DEPTH_TEST);
-		break;
-	}
-	glutPostRedisplay();
-}
