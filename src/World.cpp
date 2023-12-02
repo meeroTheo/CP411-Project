@@ -16,7 +16,7 @@ World::World() {
     /* add Tiles into the world object list */
     for (int i = 2; i <= 9; ++i) {
         obj = new Tile();
-        obj->setId(i);
+        obj->setId(i%4);
         obj->scaleChange(-0.4);
 
         int x = (i - 2) % 4;  // Adjust x-coordinate based on the loop variable

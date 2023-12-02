@@ -24,14 +24,11 @@ protected:
 	GLfloat vertexNormal[8][3];
 	GLfloat r, g, b;
 
+
 public:
 	Tile();
 	void draw();
 	void drawFace(int);
-
-	bool isFrontface(int faceindex, Camera camera);
-	GLfloat getFaceShade(int faceindex, Light light);
-	GLfloat getVertexShade(int vertexindex, Light light);
 
 };
 

@@ -7,11 +7,6 @@
 #include "Camera.hpp"
 #include <stdio.h>
 
-extern Camera myCamera;
-extern Light myLight;
-extern CullMode cullMode;
-extern RenderMode renderMode;
-
 Tile::Tile()
 {
     // Adjust vertex positions for a card-like rectangle
@@ -57,17 +52,18 @@ Tile::Tile()
     g = 0.0;
     b = 0.0;
 
-
 }
+
 
 void Tile::drawFace(int i)
 {
-	GLfloat shade = 1, shade1=1, shade2=1, shade3=1;
 
 	glColor3f(1, 1, 1);
 	glEnable(GL_TEXTURE_2D);
 	if (i==1){
-		glBindTexture(GL_TEXTURE_2D,3);
+        //since Tile extendes the shape class, use the getId method to get the id of the texture
+        glBindTexture(GL_TEXTURE_2D,getId());
+		
 	}
 	else{
 		glBindTexture(GL_TEXTURE_2D,i);
@@ -93,20 +89,6 @@ void Tile::draw()
 		drawFace(i);
 	}
     glPopMatrix();
-}
-
-GLfloat Tile::getFaceShade(int faceindex, Light light) {
-	GLfloat shade = 1, v[4], s[4], temp;
-
-
-	return shade;
-}
-
-
-GLfloat Tile::getVertexShade(int i, Light light) {
-	GLfloat shade = 1, v[4], s[4], temp;
-
-	return shade;
 }
 
 

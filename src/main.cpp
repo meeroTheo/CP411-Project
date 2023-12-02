@@ -51,17 +51,22 @@ void init(void) {
 	glUseProgram(0);  // disable GLSL shader at start
 
 	/* load six texture bitmap */
-	pix[0].makeCheckerboard();
-	pix[0].setTexture(0);
+//	pix[0].makeCheckerboard();
+//	pix[0].setTexture(0);
 //
+	pix[0].readBMPFile("texture/lancer.bmp");
+	pix[0].setTexture(0);
+
 	pix[1].readBMPFile("texture/archer.bmp");
 	pix[1].setTexture(1);
 //
 	pix[2].readBMPFile("texture/saber.bmp");
 	pix[2].setTexture(2);
 //
-	pix[3].readBMPFile("texture/lancer.bmp");
+	pix[3].readBMPFile("texture/faker.bmp");
 	pix[3].setTexture(3);
+	//
+
 //
 	pix[4].readBMPFile("texture/table.bmp");
 	pix[4].setTexture(4);
