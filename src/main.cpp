@@ -30,7 +30,8 @@ GLint isInMove = 0,
 	  csType = 3,    /* coordinate system type: 1 for VCS */
 	  transType = 4;  /* depends on csType  */
 
-CullMode cullMode = NONE;      /* culling option */
+CullMode cullMode = GLCULLDEPTHBUFFER;      /* culling option */
+
 RenderMode renderMode = TEXTURE; //  TEXTURE;  /* shade option  */
 
 World myWorld;
@@ -159,6 +160,8 @@ int main(int argc, char** argv) {
 	glutCreateWindow("Tile Matching Game");
 	PlaySound((LPCSTR) "BGM.wav", NULL, SND_FILENAME | SND_ASYNC);
 
+	glDisable(GL_CULL_FACE);
+	glEnable(GL_DEPTH_TEST);
 	glewInit(); 
 
 	menu();

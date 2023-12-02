@@ -12,14 +12,15 @@
 
 #include "pixmap/RGBpixmap.h"
 
-
+float totalRotation = 0.0;
+const float rotationStep = 0.1;
 extern GLint csType;
 extern Shape* selectObj;
 extern GLint transType, xbegin;
 extern World myWorld;
 extern Camera myCamera;
 extern Light myLight;
-
+extern CullMode cullMode;
 extern RenderMode renderMode;
 extern GLuint ProgramObject;
 
@@ -39,6 +40,12 @@ void menu() {
 	glutAddMenuEntry("Card 7", 8);
 	glutAddMenuEntry("Card 8", 9);
 
+	GLint Cull_Menu = glutCreateMenu(cullMenu);
+	glutAddMenuEntry("No culling", 1);
+	glutAddMenuEntry("My back-face", 2);
+	glutAddMenuEntry("OpenGL cull", 3);
+	glutAddMenuEntry("OpenGL depth buffer", 4);
+	glutAddMenuEntry("OpenGL cull & depth buffer", 5);
 
 	GLint VCTrans_Menu = glutCreateMenu(VCSTransMenu);
 	glutAddMenuEntry("Rotate x", 1);
@@ -76,7 +83,6 @@ void menu() {
 
 	GLint Animate_Menu = glutCreateMenu(animateMenu);
 	glutAddMenuEntry("Single object", 1);
-	glutAddMenuEntry("Multiple object", 2);
 	glutAddMenuEntry("Stop animation", 4);
 
 	glutCreateMenu(mainMenu);
@@ -87,6 +93,7 @@ void menu() {
 	glutAddSubMenu("Light", Light_Menu);
 	glutAddSubMenu("Shading", Shading_Menu);
 	glutAddSubMenu("Animation", Animate_Menu);
+	glutAddSubMenu("Culling", Cull_Menu);
 	glutAddMenuEntry("Quit", 2);
 }
 
@@ -118,6 +125,10 @@ void CardSelectMenu(GLint option)
 	displayOption = 0;
 
 	Matrix mp = selectObj->getMC();
+
+	//displayOption = 0;
+	totalRotation = 0.0;  // Reset the total rotation
+	glutIdleFunc(move);
 	glutPostRedisplay();
 }
 
@@ -317,8 +328,7 @@ void shadeMenu(GLint option) {
 	glutPostRedisplay();
 }
 
-float totalRotation = 0.0;
-const float rotationStep = 0.1;
+
 
 void move(void){
 	   float x = selectObj->getMC().mat[0][3];
@@ -370,4 +380,38 @@ void reset() {
 	glutIdleFunc(NULL);
 	glDisable(GL_LIGHTING);
 	glDisable(GL_LIGHT0);
+}
+
+
+void cullMenu(GLint option) {
+	switch (option){
+	  case 1:
+		cullMode = NONE;
+		glDisable(GL_CULL_FACE);
+		glDisable(GL_DEPTH_TEST);
+		break;
+	  case 2:
+		cullMode = BACKFACE;
+		glDisable(GL_CULL_FACE);
+		glDisable(GL_DEPTH_TEST);
+		break;
+	  case 3:
+		cullMode = GLCULL;
+		glCullFace(GL_BACK);
+		glEnable(GL_CULL_FACE);
+		glDisable(GL_DEPTH_TEST);
+		break;
+	  case 4:
+		cullMode = GLCULLDEPTHBUFFER;
+		glDisable(GL_CULL_FACE);
+		glEnable(GL_DEPTH_TEST);
+		break;
+	  case 5:
+		cullMode = GLCULLDEPTHBUFFER;
+		glCullFace(GL_BACK);
+		glEnable(GL_CULL_FACE);
+		glEnable(GL_DEPTH_TEST);
+		break;
+	}
+	glutPostRedisplay();
 }
