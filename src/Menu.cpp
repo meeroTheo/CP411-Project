@@ -118,7 +118,6 @@ void CardSelectMenu(GLint option)
 	displayOption = 0;
 
 	Matrix mp = selectObj->getMC();
-	myCamera.setRef(mp.mat[0][3], mp.mat[1][3], mp.mat[1][3]);
 	glutPostRedisplay();
 }
 
