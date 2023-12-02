@@ -64,74 +64,30 @@ void Tile::drawFace(int i)
 {
 	GLfloat shade = 1, shade1=1, shade2=1, shade3=1;
 
-	switch (renderMode) {
-	case WIRE:
-		glColor3f(r, g, b);
-		glBegin(GL_LINE_LOOP);
-		glVertex3fv(vertex[face[i][0]]);
-		glVertex3fv(vertex[face[i][1]]);
-		glVertex3fv(vertex[face[i][2]]);
-		glVertex3fv(vertex[face[i][3]]);
-		glEnd();
-		break;
-	case CONSTANT:
-		if (myLight.on == true) {
-		shade = getFaceShade(i, myLight);
-		}
-		glColor3f(faceColor[i][0]*shade, faceColor[i][1]*shade, faceColor[i][2]*shade);
-		glBegin(GL_POLYGON);
-		glVertex3fv(vertex[face[i][0]]);
-		glVertex3fv(vertex[face[i][1]]);
-		glVertex3fv(vertex[face[i][2]]);
-		glVertex3fv(vertex[face[i][3]]);
-		glEnd();
-		break;
-	case FLAT:
-		if (myLight.on == true) shade = getVertexShade(i, myLight);
-		glShadeModel(GL_FLAT);
-		glBegin(GL_POLYGON);
-		glColor3f(vertexColor[face[i][0]][0]*shade, vertexColor[face[i][0]][1]*shade, vertexColor[face[i][0]][2]*shade);
-		for (int j=0; j<4; j++) {
-			glVertex3fv(vertex[face[i][j]]);
-		}
-		glEnd();
-		break;
-
-	case SMOOTH:
-		glEnable(GL_NORMALIZE);
-		glShadeModel(GL_SMOOTH);
-		glBegin(GL_POLYGON);
-		for (int j=0; j<4; j++) {
-			if (myLight.on == true) shade = getVertexShade(face[i][j], myLight);
-				glColor3f(vertexColor[face[i][j]][0]*shade, vertexColor[face[i][j]][1]*shade, vertexColor[face[i][j]][2]*shade);
-				glNormal3f(vertexNormal[face[i][j]][0], vertexNormal[face[i][j]][1], vertexNormal[face[i][j]][2]);
-				glVertex3fv(vertex[face[i][j]]);
-			}
-		glEnd();
-		break;
-	case PHONE:
-		// your
-	   break;
-    case TEXTURE:
-		glColor3f(1, 1, 1);
-		glEnable(GL_TEXTURE_2D);
-		glBindTexture(GL_TEXTURE_2D,i);
-		glBegin(GL_QUADS);
-		glTexCoord2f(0.0, 0.0); glVertex3fv(&vertex[face[i][0]][0]);
-		glTexCoord2f(1.0, 0.0); glVertex3fv(&vertex[face[i][1]][0]);
-		glTexCoord2f(1.0, 1.0); glVertex3fv(&vertex[face[i][2]][0]);
-		glTexCoord2f(0.0, 1.0); glVertex3fv(&vertex[face[i][3]][0]);
-		glEnd();
-		glDisable(GL_TEXTURE_2D);
-		break;
+	glColor3f(1, 1, 1);
+	glEnable(GL_TEXTURE_2D);
+	if (i==1){
+		glBindTexture(GL_TEXTURE_2D,3);
 	}
-}
+	else{
+		glBindTexture(GL_TEXTURE_2D,i);
+	}
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0, 0.0); glVertex3fv(&vertex[face[i][0]][0]);
+	glTexCoord2f(1.0, 0.0); glVertex3fv(&vertex[face[i][1]][0]);
+	glTexCoord2f(1.0, 1.0); glVertex3fv(&vertex[face[i][2]][0]);
+	glTexCoord2f(0.0, 1.0); glVertex3fv(&vertex[face[i][3]][0]);
+	glEnd();
+	glDisable(GL_TEXTURE_2D);
+	}
 
 void Tile::draw()
 {
 	glPushMatrix();
     this->ctmMultiply();
     glScalef(s, s, s);
+    // Rotate the tile by 90 degrees around the Z-axis
+	glRotatef(180.0f, 0.0f, 0.0f, 1.0f);
 
 	for (int i = 0; i < 6; i++) {
 		drawFace(i);
