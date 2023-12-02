@@ -330,7 +330,7 @@ void move(void){
 	    float z = selectObj->getMC().mat[2][3];
 
 	    // Assuming selectObj->rotate(float x, float y, float z, float axisX, float axisY, float axisZ, float angle)
-	    selectObj->rotate(x, y, z, 1.0, 0.0, 0.0, rotationStep);
+	    selectObj->rotate(x, y, z, 0.0, 1.0, 0.0, rotationStep);
 
 	    totalRotation += rotationStep;
 

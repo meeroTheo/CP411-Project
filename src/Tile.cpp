@@ -72,7 +72,9 @@ void Tile::drawFace(int i)
 	if (i==0){
 		glBindTexture(GL_TEXTURE_2D,getTexId());
 
-		
+	}
+	else if (i==1){
+		glBindTexture(GL_TEXTURE_2D,5);
 	}
 	else{
 		glBindTexture(GL_TEXTURE_2D,6);
