@@ -10,14 +10,23 @@
 Tile::Tile()
 {
     // Adjust vertex positions for a card-like rectangle
-    vertex[0][0] = -1.5; vertex[0][1] = -2; vertex[0][2] = 0;
-    vertex[1][0] = -1.5; vertex[1][1] = 2;  vertex[1][2] = 0;
-    vertex[2][0] = 1.5;  vertex[2][1] = 2;  vertex[2][2] = 0;
-    vertex[3][0] = 1.5;  vertex[3][1] = -2; vertex[3][2] = 0;
-    vertex[4][0] = -1.5; vertex[4][1] = -2; vertex[4][2] = 0.1; // Slightly higher for visibility
-    vertex[5][0] = -1.5; vertex[5][1] = 2;  vertex[5][2] = 0.1;
-    vertex[6][0] = 1.5;  vertex[6][1] = 2;  vertex[6][2] = 0.1;
-    vertex[7][0] = 1.5;  vertex[7][1] = -2; vertex[7][2] = 0.1;
+//    vertex[0][0] = -1.5; vertex[0][1] = -2; vertex[0][2] = 0;
+//    vertex[1][0] = -1.5; vertex[1][1] = 2;  vertex[1][2] = 0;
+//    vertex[2][0] = 1.5;  vertex[2][1] = 2;  vertex[2][2] = 0;
+//    vertex[3][0] = 1.5;  vertex[3][1] = -2; vertex[3][2] = 0;
+//    vertex[4][0] = -1.5; vertex[4][1] = -2; vertex[4][2] = 0.1; // Slightly higher for visibility
+//    vertex[5][0] = -1.5; vertex[5][1] = 2;  vertex[5][2] = 0.1;
+//    vertex[6][0] = 1.5;  vertex[6][1] = 2;  vertex[6][2] = 0.1;
+//    vertex[7][0] = 1.5;  vertex[7][1] = -2; vertex[7][2] = 0.1;
+	vertex[0][0] = -2;   vertex[0][1] = -1.5; vertex[0][2] = 0;
+	vertex[1][0] = 2;    vertex[1][1] = -1.5; vertex[1][2] = 0;
+	vertex[2][0] = 2;    vertex[2][1] = 1.5;  vertex[2][2] = 0.3; // Increased thickness
+	vertex[3][0] = -2;   vertex[3][1] = 1.5;  vertex[3][2] = 0.3; // Increased thickness
+	vertex[4][0] = -2;   vertex[4][1] = -1.5; vertex[4][2] = 0.3; // Slightly higher for visibility and increased thickness
+	vertex[5][0] = 2;    vertex[5][1] = -1.5; vertex[5][2] = 0.3; // Slightly higher for visibility and increased thickness
+	vertex[6][0] = 2;    vertex[6][1] = 1.5;  vertex[6][2] = 0.3; // Slightly higher for visibility and increased thickness
+	vertex[7][0] = -2;   vertex[7][1] = 1.5;  vertex[7][2] = 0.3; // Slightly higher for visibility and increased thickness
+
 
     // Define faces as per the new vertex positions
     face[0][0] = 0; face[0][1] = 1; face[0][2] = 2; face[0][3] = 3;
@@ -61,12 +70,11 @@ void Tile::drawFace(int i)
 	glColor3f(1, 1, 1);
 	glEnable(GL_TEXTURE_2D);
 	if (i==1){
-        //since Tile extendes the shape class, use the getId method to get the id of the texture
         glBindTexture(GL_TEXTURE_2D,getId());
 		
 	}
 	else{
-		glBindTexture(GL_TEXTURE_2D,i);
+		glBindTexture(GL_TEXTURE_2D,6);
 	}
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0); glVertex3fv(&vertex[face[i][0]][0]);
@@ -74,6 +82,7 @@ void Tile::drawFace(int i)
 	glTexCoord2f(1.0, 1.0); glVertex3fv(&vertex[face[i][2]][0]);
 	glTexCoord2f(0.0, 1.0); glVertex3fv(&vertex[face[i][3]][0]);
 	glEnd();
+
 	glDisable(GL_TEXTURE_2D);
 	}
 
@@ -83,7 +92,7 @@ void Tile::draw()
     this->ctmMultiply();
     glScalef(s, s, s);
     // Rotate the tile by 90 degrees around the Z-axis
-	glRotatef(180.0f, 0.0f, 0.0f, 1.0f);
+	glRotatef(270.0f, 0.0f, 0.0f, 1.0f);
 
 	for (int i = 0; i < 6; i++) {
 		drawFace(i);

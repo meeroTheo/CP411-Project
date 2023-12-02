@@ -297,17 +297,33 @@ void shadeMenu(GLint option) {
 	glutPostRedisplay();
 }
 
-
+float totalRotation = 0.0;
+const float rotationStep = 0.1;
 
 void move(void){
-	selectObj->rotate(selectObj->getMC().mat[0][3], selectObj->getMC().mat[1][3], selectObj->getMC().mat[2][3], 0, 0, 1, 0.1);
-	glutPostRedisplay();
+	   float x = selectObj->getMC().mat[0][3];
+	    float y = selectObj->getMC().mat[1][3];
+	    float z = selectObj->getMC().mat[2][3];
+
+	    // Assuming selectObj->rotate(float x, float y, float z, float axisX, float axisY, float axisZ, float angle)
+	    selectObj->rotate(x, y, z, 1.0, 0.0, 0.0, rotationStep);
+
+	    totalRotation += rotationStep;
+
+	    // Stop the rotation after 180 degrees
+	    if (totalRotation >= 180.0) {
+	        totalRotation = 0.0;
+	        glutIdleFunc(NULL);  // Stop the idle function
+	    }
+
+	    glutPostRedisplay();
 }
 
 void animateMenu(GLint option) {
 	switch (option){
 	  case 1:
 		//displayOption = 0;
+		totalRotation = 0.0;  // Reset the total rotation
 		glutIdleFunc(move);
 		break;
 	  case 2:
