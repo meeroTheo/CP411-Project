@@ -80,6 +80,13 @@ void Shape::setId(GLint i) {
 GLint Shape::getId() {
 	return id;
 }
+void Shape::setTexId(GLint i) {
+	texid = i;
+}
+
+GLint Shape::getTexId() {
+	return texid;
+}
 
 void Shape::ctmMultiply() {
 	GLfloat M[16];

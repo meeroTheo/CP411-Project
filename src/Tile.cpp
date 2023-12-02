@@ -70,7 +70,7 @@ void Tile::drawFace(int i)
 	glColor3f(1, 1, 1);
 	glEnable(GL_TEXTURE_2D);
 	if (i==1){
-        glBindTexture(GL_TEXTURE_2D,getId());
+        glBindTexture(GL_TEXTURE_2D,getTexId());
 		
 	}
 	else{
