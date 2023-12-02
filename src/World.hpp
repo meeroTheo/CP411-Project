@@ -20,6 +20,7 @@ public:
 	void draw();   /* draw all objects in the world */
 	void reset();  /* resets all objects */
 	Shape *searchById(GLint i);
+	void handleClickEvent(float x, float y);
 };
 
 #endif

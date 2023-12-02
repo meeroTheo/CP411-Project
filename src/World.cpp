@@ -71,3 +71,34 @@ Shape* World::searchById(GLint i) {
 	return NULL;
 }
 
+//void World::handleClickEvent(float x, float y) {
+//	//coords
+//	//cout << x << " " << y << endl;
+//    for (std::list<Shape*>::iterator it = objlist.begin(); it != objlist.end(); ++it) {
+//        Tile* tile = dynamic_cast<Tile*>(*it);
+//        if (tile && tile->isClicked(x, y)) {
+//            cout << "Tile with ID " << tile->getId() << " clicked!" << endl;
+//            // You can add additional logic or actions here if needed
+//        }
+//    }
+//}
+void World::handleClickEvent(float x, float y) {
+    for (std::list<Shape*>::iterator it = objlist.begin(); it != objlist.end(); ++it) {
+        Tile* tile = dynamic_cast<Tile*>(*it);
+        if (tile) {
+            // Adjust with the fixed values used during initialization
+            float translatedClickX = (x/3) + 4.5;
+            float translatedClickY = y - 2;
+
+            if (tile->isClicked(translatedClickX, translatedClickY)) {
+                cout << "Tile with ID " << tile->getId() << " clicked!" << endl;
+                // You can add additional logic or actions here if needed
+            }
+        }
+    }
+}
+
+
+
+
+

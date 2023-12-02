@@ -9,15 +9,6 @@
 
 Tile::Tile()
 {
-    // Adjust vertex positions for a card-like rectangle
-//    vertex[0][0] = -1.5; vertex[0][1] = -2; vertex[0][2] = 0;
-//    vertex[1][0] = -1.5; vertex[1][1] = 2;  vertex[1][2] = 0;
-//    vertex[2][0] = 1.5;  vertex[2][1] = 2;  vertex[2][2] = 0;
-//    vertex[3][0] = 1.5;  vertex[3][1] = -2; vertex[3][2] = 0;
-//    vertex[4][0] = -1.5; vertex[4][1] = -2; vertex[4][2] = 0.1; // Slightly higher for visibility
-//    vertex[5][0] = -1.5; vertex[5][1] = 2;  vertex[5][2] = 0.1;
-//    vertex[6][0] = 1.5;  vertex[6][1] = 2;  vertex[6][2] = 0.1;
-//    vertex[7][0] = 1.5;  vertex[7][1] = -2; vertex[7][2] = 0.1;
 	vertex[0][0] = -2;   vertex[0][1] = -1.5; vertex[0][2] = 0;
 	vertex[1][0] = 2;    vertex[1][1] = -1.5; vertex[1][2] = 0;
 	vertex[2][0] = 2;    vertex[2][1] = 1.5;  vertex[2][2] = 0.3; // Increased thickness
@@ -61,6 +52,12 @@ Tile::Tile()
     g = 0.0;
     b = 0.0;
 
+}
+bool Tile::isClicked(float x, float y) const {
+    // Assuming vertex is a member variable of the Tile class
+    // Check if the click coordinates (x, y) are within the tile bounds
+    return (x >= vertex[0][0]*50 && x <= vertex[1][0]*50 &&
+            y >= vertex[0][1]*50 && y <= vertex[2][1]*50);
 }
 
 

@@ -15,14 +15,14 @@ extern RenderMode renderMode;
 Board::Board()
 {
 	// Adjust vertex positions for a board-like rectangle
-    vertex[0][0] = -5.0; vertex[0][1] = -5.0; vertex[0][2] = 0.0;
-    vertex[1][0] = -5.0; vertex[1][1] = 5.0;  vertex[1][2] = 0.0;
-    vertex[2][0] = 5.0;  vertex[2][1] = 5.0;  vertex[2][2] = 0.0;
-    vertex[3][0] = 5.0;  vertex[3][1] = -5.0; vertex[3][2] = 0.0;
-    vertex[4][0] = -5.0; vertex[4][1] = -5.0; vertex[4][2] = 0.1; // Slightly higher for visibility
-    vertex[5][0] = -5.0; vertex[5][1] = 5.0;  vertex[5][2] = 0.1;
-    vertex[6][0] = 5.0;  vertex[6][1] = 5.0;  vertex[6][2] = 0.1;
-    vertex[7][0] = 5.0;  vertex[7][1] = -5.0; vertex[7][2] = 0.1;
+    vertex[0][0] = -10.0; vertex[0][1] = -10.0; vertex[0][2] = 0.0;
+    vertex[1][0] = -10.0; vertex[1][1] = 10.0;  vertex[1][2] = 0.0;
+    vertex[2][0] = 10.0;  vertex[2][1] = 10.0;  vertex[2][2] = 0.0;
+    vertex[3][0] = 10.0;  vertex[3][1] = -10.0; vertex[3][2] = 0.0;
+    vertex[4][0] = -10.0; vertex[4][1] = -10.0; vertex[4][2] = 0.1; // Slightly higher for visibility
+    vertex[5][0] = -10.0; vertex[5][1] = 10.0;  vertex[5][2] = 0.1;
+    vertex[6][0] = 10.0;  vertex[6][1] = 10.0;  vertex[6][2] = 0.1;
+    vertex[7][0] = 10.0;  vertex[7][1] = -10.0; vertex[7][2] = 0.1;
 
 
 	// Define faces as per the new vertex positions

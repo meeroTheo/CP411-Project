@@ -29,6 +29,7 @@ public:
 	Tile();
 	void draw();
 	void drawFace(int);
+	 bool isClicked(float x, float y) const;
 
 };
 

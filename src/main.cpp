@@ -27,7 +27,7 @@
 GLint winWidth = 800, winHeight = 800;
 GLint isInMove = 0,
 	  xbegin = 0,
-	  csType = 3,    /* coordinate system type: 1 for VCS */
+	  csType = 0,    /* coordinate system type: 1 for VCS */
 	  transType = 4;  /* depends on csType  */
 
 CullMode cullMode = NONE;      /* culling option */
@@ -130,6 +130,7 @@ void mouseActionFcn(int button, int state, int xMouse, int yMouse) {
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
 		isInMove = 1;
 		xbegin = xMouse;
+		myWorld.handleClickEvent(xMouse, yMouse);
 	}
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP) {
 		isInMove = 0;
