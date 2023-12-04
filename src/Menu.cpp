@@ -13,6 +13,9 @@
 #include "pixmap/RGBpixmap.h"
 
 #include <ctime>
+#include <iostream>
+#include <list>
+using namespace std;
 
 double totalRotation = 0.0;
 double rotationStep = 1.0;
@@ -23,9 +26,7 @@ extern Shape* selectObj;
 extern GLint transType, xbegin;
 extern World myWorld;
 extern Camera myCamera;
-extern Light myLight;
 extern RenderMode renderMode;
-extern GLuint ProgramObject;
 
 extern GLint displayOption;
 
@@ -33,6 +34,9 @@ Shape* tile1;
 Shape* tile2;
 int score;
 void tileHide();
+
+
+list<Shape*> hiddenList;
 
 
 void menu() {
@@ -154,6 +158,9 @@ void CardSelectMenu(GLint option)
 			// implement Hide tile here
 			//timeDelay(1.0);
 			tileHide();
+			hiddenList.push_back(tile1);
+			hiddenList.push_back(tile2);
+
 			tile1 = NULL;
 			tile2 = NULL;
 			//DISPLAY MATCH FOUND TEXT
@@ -178,6 +185,7 @@ void tileHide() {
 	//add a delay by 2 seconds before translate without using delayflipback
 	tile1->translate(0.0, 0.0, -10.0);
 	tile2->translate(0.0, 0.0, -10.0);
+
 }
 
 
@@ -228,66 +236,18 @@ void shadeMenu(GLint option) {
 	glUseProgram( 0 );
 	switch (option){
 	  case 1:
-		//isShading = false;
-		renderMode = WIRE;
 		break;
 	  case 2:
-		renderMode = CONSTANT;
 		break;
 	  case 3:
-		renderMode = FLAT;
 		break;
 	  case 4:
 		renderMode = SMOOTH;
 		break;
 	  case 5:
 		renderMode = TEXTURE;
-		//glEnable(GL_DEPTH_TEST);
-		//glEnable(GL_TEXTURE_2D);
-		//glDisable(GL_LIGHTING);
-		//glEnable(GL_LIGHT0);
 		break;
 	  case 6:
-		renderMode = PHONE;
-		glUseProgram( ProgramObject );
-
-		// light properties
-		GLfloat ambient[] = { 0.1f, 0.1f, 0.3f, 1.0f };
-		GLfloat diffuse[] = { .6f, .6f, 1.0f, 1.0f };
-		GLfloat position[] = { 1.8, 1.8, 1.5, 1.0 };
-		GLfloat lmodel_ambient[] = { 0.5, 0.5, 0.5, 1.0 };
-		GLfloat local_view[] = { 0.0 };
-
-		//Material
-		GLfloat no_mat[] = { 0.0, 0.0, 0.0, 1.0 };
-		GLfloat mat_ambient[] = { 0.7, 0.7, 0.7, 1.0 };
-
-		GLfloat mat_diffuse[] = { 0.1, 0.5, 0.8, 1.0 };
-
-		GLfloat high_shininess[] = { 100.0 };
-
-
-		position[0] = myLight.getMC().mat[0][3];
-		position[1] = myLight.getMC().mat[1][3];
-		position[2] = myLight.getMC().mat[2][3];
-
-		glLightfv(GL_LIGHT0, GL_AMBIENT, ambient);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse);
-		glLightfv(GL_LIGHT0, GL_POSITION, position);
-
-		glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
-		glLightModelfv(GL_LIGHT_MODEL_LOCAL_VIEWER, local_view);
-
-		glMaterialfv(GL_FRONT, GL_AMBIENT, mat_ambient);
-		glMaterialfv(GL_FRONT, GL_DIFFUSE, mat_diffuse);
-		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_ambient);
-		glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
-		glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
-
-		glEnable(GL_LIGHTING);
-		glEnable( GL_NORMALIZE);
-		glEnable(GL_COLOR_MATERIAL);
-		glEnable(GL_LIGHT0);
 		break;
 	}
 
@@ -351,19 +311,26 @@ void animateMenu(GLint option) {
 	glutPostRedisplay();
 }
 
+void reset_tile_pos(){
+	 //translate the shapes in hiddenList up by 10
+	 for (list<Shape*>::iterator it = hiddenList.begin(); it != hiddenList.end(); ++it){
+		 (*it)->translate(0.0, 0.0, 10.0);
+
+	 }
+}
+
+
 void reset() {
 	tile1 = NULL;
 	tile2 = NULL;
 	score = 0;
 	displayOption = 0;
 	renderMode = TEXTURE;
+	reset_tile_pos();
 	myWorld.reset();
 	myCamera.reset();
 	//flip cards back
 	
-
-
-
 	glUseProgram(0);  // disable GLSL shader
 	glutIdleFunc(NULL);
 	glDisable(GL_LIGHTING);
