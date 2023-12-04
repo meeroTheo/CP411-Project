@@ -12,6 +12,8 @@
 
 #include "pixmap/RGBpixmap.h"
 
+#include <ctime>
+
 double totalRotation = 0.0;
 double rotationStep = 1.0;
 double rotationSpeed = 10.0;
@@ -30,10 +32,10 @@ extern GLint displayOption;
 Shape* tile1;
 Shape* tile2;
 int score;
+void tileHide();
+
 
 void menu() {
-	GLint Object_Menu = glutCreateMenu(ObjSubMenu);
-	glutAddMenuEntry("Tile", 1);
 
 	// Create a menu that allows users to select a card to flip
 	GLint CardSelect_Menu = glutCreateMenu(CardSelectMenu);
@@ -88,7 +90,6 @@ void menu() {
 
 	glutCreateMenu(mainMenu);
 	glutAddMenuEntry("Reset", 1);
-	glutAddSubMenu("Select Object", Object_Menu);
 	glutAddSubMenu("Select Card", CardSelect_Menu);
 	glutAddSubMenu("VCS Transformations", VCTrans_Menu);
 	glutAddSubMenu("Light", Light_Menu);
@@ -137,10 +138,18 @@ void delayedFlipBack1(int value) {
 	selectObj = myWorld.searchById(tile1->getId());
 	totalRotation = 0.0;
 	glutIdleFunc(move);
-	glutTimerFunc(250, delayedFlipBack2, 0);
+	glutTimerFunc(500, delayedFlipBack2, 0);
 	glutPostRedisplay();
 }
+void timeDelay(double seconds){
+	clock_t start = clock();
+	double delay= seconds * CLOCKS_PER_SEC;
 
+	while (clock() - start < delay){
+		//wait
+	}
+
+}
 void CardSelectMenu(GLint option)
 {
 	if (tile1 && tile2) {
@@ -164,10 +173,11 @@ void CardSelectMenu(GLint option)
 	glutIdleFunc(move);
 
 	if (tile1 != NULL && tile2 != NULL) {
-		if(tile1->getTexId() == tile2->getTexId()) {
+		if(tile1->getTexId() == tile2->getTexId()) { //when tile is matched
 			++score;
 			// implement Hide tile here
-			//tileHide();
+			timeDelay(1.0);
+			tileHide();
 			tile1 = NULL;
 			tile2 = NULL;
 		}
@@ -182,6 +192,17 @@ void CardSelectMenu(GLint option)
 	//LogicInstance.selectTile(objectId, textureId);
 	glutPostRedisplay();
 }
+
+
+//timer for delay
+//tileHide translates the tile to the back of the board
+void tileHide() {
+	//add a delay by 2 seconds before translate without using delayflipback
+
+	tile1->translate(0.0, 0.0, -10.0);
+	tile2->translate(0.0, 0.0, -10.0);
+}
+
 
 
 void VCSTransMenu(GLint transOption) {
@@ -445,6 +466,10 @@ void reset() {
 	myWorld.reset();
 	myLight.reset();
 	myCamera.reset();
+	//flip cards back
+	
+
+
 
 	glUseProgram(0);  // disable GLSL shader
 	glutIdleFunc(NULL);
