@@ -66,19 +66,26 @@ void World::draw() {
 void World::reset(){
 	Shape *obj = NULL;
 
-	obj = this->searchById(1);
-	obj->reset();
-	obj->setScale(0.5);
-	obj->translate(2.5, 0, 0);
+	std::vector<int> randomizedTextureIDs;
+	srand(static_cast<unsigned int>(time(NULL)));
 
-	obj = this->searchById(2);
-	obj->reset();
-	obj->setScale(0.5);
-	obj->translate(4, 0, 0);
+	for (int i = 0; i < 4; ++i) {
+		for (int j = 0; j < 2; ++j) {
+			randomizedTextureIDs.push_back(i);
+		}
+	}
 
-	obj = this->searchById(3);
-	obj->reset();
-	obj->setScale(0.5);
+	int n = randomizedTextureIDs.size();
+	for (int i = n - 1; i > 0; --i) {
+		int j = rand() % (i + 1);
+		std::swap(randomizedTextureIDs[i], randomizedTextureIDs[j]);
+	}
+
+	/* add Tiles into the world object list */
+	for (int i = 2; i <= 9; ++i) {
+		obj = this->searchById(i);
+		obj->setTexId(randomizedTextureIDs[i - 2]);
+	}
 }
 
 Shape* World::searchById(GLint i) {

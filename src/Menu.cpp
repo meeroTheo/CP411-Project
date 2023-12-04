@@ -120,6 +120,10 @@ void ObjSubMenu(GLint option)
 	glutPostRedisplay();
 }
 
+//void tileHide() {
+
+//}
+
 void delayedFlipBack2(int value) {
 	selectObj = myWorld.searchById(tile2->getId());
 	totalRotation = 0.0;
@@ -139,6 +143,9 @@ void delayedFlipBack1(int value) {
 
 void CardSelectMenu(GLint option)
 {
+	if (tile1 && tile2) {
+		return;
+	}
 	selectObj = myWorld.searchById(option);
 	displayOption = 0;
 
@@ -159,7 +166,8 @@ void CardSelectMenu(GLint option)
 	if (tile1 != NULL && tile2 != NULL) {
 		if(tile1->getTexId() == tile2->getTexId()) {
 			++score;
-			// implement destroy tile here
+			// implement Hide tile here
+			//tileHide();
 			tile1 = NULL;
 			tile2 = NULL;
 		}
@@ -174,8 +182,6 @@ void CardSelectMenu(GLint option)
 	//LogicInstance.selectTile(objectId, textureId);
 	glutPostRedisplay();
 }
-
-
 
 
 void VCSTransMenu(GLint transOption) {
@@ -431,6 +437,9 @@ void animateMenu(GLint option) {
 }
 
 void reset() {
+	tile1 = NULL;
+	tile2 = NULL;
+	score = 0;
 	displayOption = 0;
 	renderMode = TEXTURE;
 	myWorld.reset();
