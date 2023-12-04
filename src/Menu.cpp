@@ -26,6 +26,11 @@ extern RenderMode renderMode;
 extern GLuint ProgramObject;
 
 extern GLint displayOption;
+
+Shape* tile1;
+Shape* tile2;
+int score;
+
 void menu() {
 	GLint Object_Menu = glutCreateMenu(ObjSubMenu);
 	glutAddMenuEntry("Tile", 1);
@@ -115,18 +120,62 @@ void ObjSubMenu(GLint option)
 	glutPostRedisplay();
 }
 
+void delayedFlipBack2(int value) {
+	selectObj = myWorld.searchById(tile2->getId());
+	totalRotation = 0.0;
+	glutIdleFunc(move);
+	tile1 = NULL;
+	tile2 = NULL;
+	glutPostRedisplay();
+}
+
+void delayedFlipBack1(int value) {
+	selectObj = myWorld.searchById(tile1->getId());
+	totalRotation = 0.0;
+	glutIdleFunc(move);
+	glutTimerFunc(250, delayedFlipBack2, 0);
+	glutPostRedisplay();
+}
+
 void CardSelectMenu(GLint option)
 {
 	selectObj = myWorld.searchById(option);
 	displayOption = 0;
 
-	Matrix mp = selectObj->getMC();
+	if (tile1 == NULL) {
+		tile1 = selectObj;
+	} else if (tile1->getId() == selectObj->getId()) {
+		return;
+	} else {
+		tile2 = selectObj;
+	}
 
+
+	Matrix mp = selectObj->getMC();
 	//displayOption = 0;
 	totalRotation = 0.0;  // Reset the total rotation
 	glutIdleFunc(move);
+
+	if (tile1 != NULL && tile2 != NULL) {
+		if(tile1->getTexId() == tile2->getTexId()) {
+			++score;
+			// implement destroy tile here
+			tile1 = NULL;
+			tile2 = NULL;
+		}
+		else {
+			glutTimerFunc(650, delayedFlipBack1, 0);
+			totalRotation = 0.0;
+
+		}
+
+	}
+
+	//LogicInstance.selectTile(objectId, textureId);
 	glutPostRedisplay();
 }
+
+
 
 
 void VCSTransMenu(GLint transOption) {
@@ -341,8 +390,6 @@ void timer(int value){
 
 		totalRotation += rotationAngle;
 	}
-
-	std::cout << "Total Rotation: " << totalRotation << std::endl;
 
 	// Stop the rotation after 180 degrees
 	if (totalRotation >= (180.0 - tolerance)) {
