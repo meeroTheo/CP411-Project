@@ -63,7 +63,7 @@ void init(void) {
 	pix[3].readBMPFile("texture/faker.bmp");
 	pix[3].setTexture(3);
 
-	pix[4].readBMPFile("texture/table.bmp");
+	pix[4].readBMPFile("texture/table2.bmp");
 	pix[4].setTexture(4);
 
 	pix[5].readBMPFile("texture/backside.bmp");
@@ -98,9 +98,9 @@ void display(void) {
 	switch (displayOption) {
 	case 0:
 	   myCamera.setProjectionMatrix();
-	   drawWCSAxes();
+	   //drawWCSAxes();
 	   myWorld.draw();
-	   myLight.draw();
+	   //myLight.draw();
 	 break;
 	case 1:
 	   myCamera.setProjectionMatrix();
@@ -141,9 +141,6 @@ void mouseMotionFcn(GLint xMouse, GLint yMouse) {
 	if (isInMove) {
 		if(csType == 3){
 			VCSTransform(xMouse);
-		}
-		else if(csType == 4) {
-			lightTransform(xMouse);
 		}
 		glutPostRedisplay();
 	}

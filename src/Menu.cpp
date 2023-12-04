@@ -49,7 +49,6 @@ void menu() {
 	glutAddMenuEntry("Card 8", 9);
 
 
-
 	GLint VCTrans_Menu = glutCreateMenu(VCSTransMenu);
 	glutAddMenuEntry("Rotate x", 1);
 	glutAddMenuEntry("Rotate y", 2);
@@ -57,31 +56,10 @@ void menu() {
 	glutAddMenuEntry("Translate x", 4);
 	glutAddMenuEntry("Translate y", 5);
 	glutAddMenuEntry("Translate z", 6);
-	glutAddMenuEntry("Clipping Near", 7);
-	glutAddMenuEntry("Clipping Far", 8);
 
-	GLint Light_Menu = glutCreateMenu(lightMenu);
-	glutAddMenuEntry("Turn on light", 8);
-	glutAddMenuEntry("Turn off light", 9);
-	glutAddMenuEntry("Change intensity", 7);
-	glutAddMenuEntry("Rotate x ", 1);
-	glutAddMenuEntry("Rotate y ", 2);
-	glutAddMenuEntry("Rotate z", 3);
-	glutAddMenuEntry("Translate x ", 4);
-	glutAddMenuEntry("Translate y ", 5);
-	glutAddMenuEntry("Translate z", 6);
-	//glutAddMenuEntry("OpenGL light", 10);
-
-	/* SimpleView2 features */
 	GLint Shading_Menu = glutCreateMenu(shadeMenu);
-	glutAddMenuEntry("No shading", 1);
-	glutAddMenuEntry("My constant shading", 2);
-	glutAddMenuEntry("OpenGL flat shading", 3);
 	glutAddMenuEntry("OpenGL smooth shading", 4);
-
-	/* SimppleView3 features */
 	glutAddMenuEntry("Texture", 5);
-	glutAddMenuEntry("GLSL phone shading", 6);
 
 
 	GLint Animate_Menu = glutCreateMenu(animateMenu);
@@ -92,7 +70,7 @@ void menu() {
 	glutAddMenuEntry("Reset", 1);
 	glutAddSubMenu("Select Card", CardSelect_Menu);
 	glutAddSubMenu("VCS Transformations", VCTrans_Menu);
-	glutAddSubMenu("Light", Light_Menu);
+
 	glutAddSubMenu("Shading", Shading_Menu);
 	glutAddSubMenu("Animation", Animate_Menu);
 
@@ -121,9 +99,6 @@ void ObjSubMenu(GLint option)
 	glutPostRedisplay();
 }
 
-//void tileHide() {
-
-//}
 
 void delayedFlipBack2(int value) {
 	selectObj = myWorld.searchById(tile2->getId());
@@ -150,6 +125,7 @@ void timeDelay(double seconds){
 	}
 
 }
+
 void CardSelectMenu(GLint option)
 {
 	if (tile1 && tile2) {
@@ -176,10 +152,12 @@ void CardSelectMenu(GLint option)
 		if(tile1->getTexId() == tile2->getTexId()) { //when tile is matched
 			++score;
 			// implement Hide tile here
-			timeDelay(1.0);
+			//timeDelay(1.0);
 			tileHide();
 			tile1 = NULL;
 			tile2 = NULL;
+			//DISPLAY MATCH FOUND TEXT
+
 		}
 		else {
 			glutTimerFunc(650, delayedFlipBack1, 0);
@@ -198,7 +176,6 @@ void CardSelectMenu(GLint option)
 //tileHide translates the tile to the back of the board
 void tileHide() {
 	//add a delay by 2 seconds before translate without using delayflipback
-
 	tile1->translate(0.0, 0.0, -10.0);
 	tile2->translate(0.0, 0.0, -10.0);
 }
@@ -241,88 +218,6 @@ void VCSTransform(GLint x){
 }
 
 
-void lightMenu(GLint option) {
-	csType = 4;
-	transType = option;
-	switch (option) {
-	   case 8:
-		myLight.on = true;
-		break;
-	  case 9:
-		glDisable(GL_LIGHTING);
-		glDisable(GL_LIGHT0);
-		glDisable(GL_DEPTH_TEST);
-		myLight.on = false;
-		break;
-
-	  case 10:
-		glLightModelf( GL_LIGHT_MODEL_TWO_SIDE , 0 );
-
-
-
-		GLfloat material_Kd[] = { 1.0f*myLight.I, 0.4f*myLight.I, 0.0f*myLight.I, 0.0f };
-		glMaterialfv(GL_FRONT, GL_DIFFUSE, material_Kd);
-
-		GLfloat pos[] = { myLight.getMC().mat[0][3], myLight.getMC().mat[1][3], myLight.getMC().mat[2][3], 1.0 };
-		GLfloat Ka[] = { 1.0, 1.0, 1.0, 1.0 };
-		GLfloat Kd[] = { 1.0*myLight.I, 1.0*myLight.I, 1.0*myLight.I, 1.0 };
-		GLfloat Ks[] = { 1.0, 1.0, 1.0, 1.0 };
-		glLightfv(GL_LIGHT0, GL_POSITION, pos);
-		//glLightfv(GL_LIGHT0, GL_AMBIENT, Ka);
-		glLightfv(GL_LIGHT0, GL_DIFFUSE, Kd);
-		glLightfv(GL_LIGHT0, GL_SPECULAR, Ks);
-
-		glEnable(GL_LIGHTING);
-		glEnable(GL_NORMALIZE);
-		glEnable(GL_DEPTH_TEST);
-		glShadeModel (GL_SMOOTH);
-		glEnable(GL_LIGHT0);
-		break;
-	}
-
-	glutPostRedisplay();
-}
-
-void lightTransform(GLint x){
-	GLfloat theta = (xbegin - x > 0) ? 1 : -1;
-	if (transType == 1) {   // rotate x
-		myLight.rotate(0, 0, 0, 1.0, 0.0, 0.0, theta*0.5);
-	}
-	else if (transType == 2) { // rotate y
-		myLight.rotate(0, 0, 0, 0.0, 1.0, 0.0, theta*0.5);
-	}
-	else if(transType == 3){ // rotate z
-		myLight.rotate(0, 0, 0, 0.0, 0.0, 1.0, theta*0.5);
-	}
-	else if (transType == 4) { // translate x
-		myLight.translate(theta*0.1, 0.0, 0.0);
-	}
-	else if(transType == 5){   // eye translate y
-		myLight.translate(0.0, theta*0.1, 0.0);
-	}
-	else if(transType == 6){ // eye translate z
-		myLight.translate(0.0, 0.0, theta*0.1);
-	}
-	else if(transType == 7){  // change intensity
-		myLight.I += theta *0.01;
-	}
-
-
-	GLfloat Kd[] = { 1.0*myLight.I, 1.0*myLight.I, 1.0*myLight.I, 1.0 };
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, Kd);
-
-	GLfloat material_Ke[] = { 0.5*myLight.I, 0.5*myLight.I, 0.5*myLight.I, 0.0f };
-	//glMaterialfv(GL_FRONT_AND_BACK, GL_EMISSION, material_Ke);
-
-	glMaterialfv(GL_FRONT, GL_EMISSION, material_Ke);
-
-	GLfloat pos[] = { myLight.getMC().mat[0][3], myLight.getMC().mat[1][3], myLight.getMC().mat[2][3], 1.0 };
-	glLightfv(GL_LIGHT0, GL_POSITION, pos);
-
-
-	glutPostRedisplay();
-}
-
 void shadeMenu(GLint option) {
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_LIGHTING);
@@ -359,7 +254,6 @@ void shadeMenu(GLint option) {
 		// light properties
 		GLfloat ambient[] = { 0.1f, 0.1f, 0.3f, 1.0f };
 		GLfloat diffuse[] = { .6f, .6f, 1.0f, 1.0f };
-		GLfloat specular[] = { 1.0, 1.0, 1.0, 1.0 };
 		GLfloat position[] = { 1.8, 1.8, 1.5, 1.0 };
 		GLfloat lmodel_ambient[] = { 0.5, 0.5, 0.5, 1.0 };
 		GLfloat local_view[] = { 0.0 };
@@ -367,11 +261,11 @@ void shadeMenu(GLint option) {
 		//Material
 		GLfloat no_mat[] = { 0.0, 0.0, 0.0, 1.0 };
 		GLfloat mat_ambient[] = { 0.7, 0.7, 0.7, 1.0 };
-		GLfloat mat_ambient_color[] = { 1, 1, 1, 1 };
+
 		GLfloat mat_diffuse[] = { 0.1, 0.5, 0.8, 1.0 };
-		GLfloat mat_specular[] = { 1.0, 1.0, 1.0, 1.0 };
+
 		GLfloat high_shininess[] = { 100.0 };
-		GLfloat mat_emission[] = { 1, 1, 1, 1 };
+
 
 		position[0] = myLight.getMC().mat[0][3];
 		position[1] = myLight.getMC().mat[1][3];
@@ -464,7 +358,6 @@ void reset() {
 	displayOption = 0;
 	renderMode = TEXTURE;
 	myWorld.reset();
-	myLight.reset();
 	myCamera.reset();
 	//flip cards back
 	
