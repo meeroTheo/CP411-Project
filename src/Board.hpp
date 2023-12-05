@@ -1,8 +1,3 @@
-/*
- *  SimpleView : reference design
- *  Author: HBF
- *  Version: 2022-10-06
- */
 #ifndef BOARD_H
 #define BOARD_H
 

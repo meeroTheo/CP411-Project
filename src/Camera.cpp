@@ -1,8 +1,3 @@
-/*
- *  SimpleView : reference design
- *  Author: HBF
- *  Version: 2022-10-03 (update)
- */
 #include <stdio.h>
 #include "Camera.hpp"
 #include "Matrix.hpp"
@@ -12,7 +7,7 @@ Camera::Camera(){
 	reset();
 }
 
-void Camera::reset(void) { // make default camera
+void Camera::reset(void) {
 	eye.set(0.0, 0.0, 10.0);
 	ref.set(0, 0, 0);
 	viewup.set(0, 1, 0);

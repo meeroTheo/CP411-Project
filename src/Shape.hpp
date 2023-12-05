@@ -1,8 +1,4 @@
-/*
- *  SimpleView : reference design
- *  Author: HBF
- *  Version: 2022-10-03 (update)
- */
+
 #ifndef CSHAPE_H
 #define CSHAPE_H
 

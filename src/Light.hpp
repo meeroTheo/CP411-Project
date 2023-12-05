@@ -1,9 +1,3 @@
-/*
- *  SimpleView : reference design
- *  Author: HBF
- *  Version: 2022-10-03 (update)
- */
-
 #ifndef LIGHT_HPP_
 #define LIGHT_HPP_
 

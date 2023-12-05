@@ -37,7 +37,6 @@ list<Shape*> hiddenList;
 
 void menu() {
 
-	// Create a menu that allows users to select a card to flip
 	GLint CardSelect_Menu = glutCreateMenu(CardSelectMenu);
 	glutAddMenuEntry("Card 1", 2);
 	glutAddMenuEntry("Card 2", 3);
@@ -61,18 +60,12 @@ void menu() {
 	glutAddMenuEntry("OpenGL smooth shading", 4);
 	glutAddMenuEntry("Texture", 5);
 
-
-	GLint Animate_Menu = glutCreateMenu(animateMenu);
-	glutAddMenuEntry("Single object", 1);
-	glutAddMenuEntry("Stop animation", 4);
-
 	glutCreateMenu(mainMenu);
 	glutAddMenuEntry("Reset", 1);
 	glutAddSubMenu("Select Card", CardSelect_Menu);
 	glutAddSubMenu("VCS Transformations", VCTrans_Menu);
 
 	glutAddSubMenu("Shading", Shading_Menu);
-	glutAddSubMenu("Animation", Animate_Menu);
 
 	glutAddMenuEntry("Quit", 2);
 }
@@ -151,15 +144,13 @@ void CardSelectMenu(GLint option)
 	if (tile1 != NULL && tile2 != NULL) {
 		if(tile1->getTexId() == tile2->getTexId()) { //when tile is matched
 			++score;
-			// implement Hide tile here
-			//timeDelay(1.0);
 			tileHide();
 			hiddenList.push_back(tile1);
 			hiddenList.push_back(tile2);
 
 			tile1 = NULL;
 			tile2 = NULL;
-			//DISPLAY MATCH FOUND TEXT
+
 
 		}
 		else {

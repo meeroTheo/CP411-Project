@@ -1,8 +1,3 @@
-/*
- *  SimpleView
- *  Author: Meer Theodore Baloch
- *  Version: 2023-11-19
- */
 #include "Board.hpp"
 #include "Camera.hpp"
 #include <stdio.h>
@@ -14,18 +9,18 @@ extern RenderMode renderMode;
 
 Board::Board()
 {
-	// Adjust vertex positions for a board-like rectangle
+	//Adjust vertex positions for a board-like rectangle
     vertex[0][0] = -10.0; vertex[0][1] = -10.0; vertex[0][2] = 0.0;
     vertex[1][0] = -10.0; vertex[1][1] = 10.0;  vertex[1][2] = 0.0;
     vertex[2][0] = 10.0;  vertex[2][1] = 10.0;  vertex[2][2] = 0.0;
     vertex[3][0] = 10.0;  vertex[3][1] = -10.0; vertex[3][2] = 0.0;
-    vertex[4][0] = -10.0; vertex[4][1] = -10.0; vertex[4][2] = 0.1; // Slightly higher for visibility
+    vertex[4][0] = -10.0; vertex[4][1] = -10.0; vertex[4][2] = 0.1;
     vertex[5][0] = -10.0; vertex[5][1] = 10.0;  vertex[5][2] = 0.1;
     vertex[6][0] = 10.0;  vertex[6][1] = 10.0;  vertex[6][2] = 0.1;
     vertex[7][0] = 10.0;  vertex[7][1] = -10.0; vertex[7][2] = 0.1;
 
 
-	// Define faces as per the new vertex positions
+
 	face[0][0] = 0; face[0][1] = 1; face[0][2] = 2; face[0][3] = 3;
 	face[1][0] = 7; face[1][1] = 6; face[1][2] = 5; face[1][3] = 4;
 	face[2][0] = 0; face[2][1] = 4; face[2][2] = 5; face[2][3] = 1;
@@ -33,8 +28,6 @@ Board::Board()
 	face[4][0] = 3; face[4][1] = 2; face[4][2] = 6; face[4][3] = 7;
 	face[5][0] = 0; face[5][1] = 3; face[5][2] = 7; face[5][3] = 4;
 
-	// Update vertex colors for the board-like rectangle
-	// These are placeholder colors, modify them as needed
 	vertexColor[0][0] = 1.0; vertexColor[0][1] = 0.0; vertexColor[0][2] = 0.0;
 	vertexColor[1][0] = 0.0; vertexColor[1][1] = 1.0; vertexColor[1][2] = 0.0;
 	vertexColor[2][0] = 0.0; vertexColor[2][1] = 0.0; vertexColor[2][2] = 1.0;
@@ -44,8 +37,6 @@ Board::Board()
 	vertexColor[6][0] = 0.5; vertexColor[6][1] = 0.5; vertexColor[6][2] = 0.5;
 	vertexColor[7][0] = 0.0; vertexColor[7][1] = 0.0; vertexColor[7][2] = 0.0;
 
-	// Update vertex normals for the board-like rectangle (assuming flat surface)
-	// These are placeholder normals, modify them as needed
 	for (int i = 0; i < 8; ++i) {
 		vertexNormal[i][0] = 0.0;
 		vertexNormal[i][1] = 0.0;

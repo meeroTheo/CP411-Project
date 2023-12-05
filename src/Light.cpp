@@ -1,8 +1,3 @@
-/*
- *  SimpleView : reference design
- *  Author: HBF
- *  Version: 2022-10-03 (update)
- */
 #include "Light.hpp"
 #include "Matrix.hpp"
 #include <stdio.h>

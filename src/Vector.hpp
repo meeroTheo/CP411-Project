@@ -1,8 +1,4 @@
-/*
- *  SimpleView : reference design
- *  Author: HBF
- *  Version: 2022-10-06
- */
+
 #ifndef CVECTOR_H
 #define CVECTOR_H
 
