@@ -155,7 +155,7 @@ int main(int argc, char** argv) {
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(winWidth, winHeight);
 	glutCreateWindow("Tile Matching Game");
-	PlaySound((LPCSTR) "BGM.wav", NULL, SND_FILENAME | SND_ASYNC);
+	PlaySound((LPCSTR) "BGM2.wav", NULL, SND_FILENAME | SND_ASYNC);
 
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);

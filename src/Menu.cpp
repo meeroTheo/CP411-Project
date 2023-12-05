@@ -1,8 +1,4 @@
-/*
- *  SimpleView : reference design
- *  Author: HBF
- *  Version: 2022-10-03
- */
+
 #include "Menu.hpp"
 #include "World.hpp"
 #include "Camera.hpp"
@@ -315,9 +311,21 @@ void reset_tile_pos(){
 	 //translate the shapes in hiddenList up by 10
 	 for (list<Shape*>::iterator it = hiddenList.begin(); it != hiddenList.end(); ++it){
 		 (*it)->translate(0.0, 0.0, 10.0);
+	 }
+	 //rotate the shapes in hiddenList by 180 degrees
+	 for (list<Shape*>::iterator it = hiddenList.begin(); it != hiddenList.end(); ++it){
+
+
+		double x = (*it)->getMC().mat[0][3];
+		double y = (*it)->getMC().mat[1][3];
+		double z = (*it)->getMC().mat[2][3];
+
+		(*it)->rotate(x, y, z, 0.0, 1.0, 0.0, 180);
+		}
+		//remove all shapes from hiddenList
+		hiddenList.clear();
 
 	 }
-}
 
 
 void reset() {
